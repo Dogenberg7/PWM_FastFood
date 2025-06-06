@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWM FastFood</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body data-bs-theme="dark">
+<div id="content">
+    <div class="col-12">
+        <h2 class="mb-1">Confirm your order</h2>
+        <div class="input-group">
+            <div id="total" class="input-group-text"></div>
+            <button class="btn btn-primary" onclick="confirmOrder()">Confirm</button>
+        </div>
+        <h4 class="mb-1">Select a payment method</h4>
+        <div id="cards" class="row overflow-x-scroll flex-nowrap py-2">
+
+        </div>
+    </div>
+</div>
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/errorManager.js"></script>
+<script src="/js/checkout.js"></script>
+</body>
+</html>

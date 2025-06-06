@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWM FastFood</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body data-bs-theme="dark">
+<div id="content">
+    <div class="col-12">
+        <h2>Search</h2>
+        <h4>Dishes</h4>
+        <div class="input-group">
+            <input id="dish-name" type="text" class="form-control rounded-end-0" placeholder="Dish name">
+            <input id="dish-category" type="text" class="form-control rounded-0" placeholder="Category">
+            <input id="dish-price" type="number" class="form-control rounded-0" min="0.01" step="0.01" placeholder="Max price">
+            <div class="input-group-text rounded-0">€</div>
+            <button type="button" class="btn btn-primary rounded-start-0" onclick="dishElements.currentPage = 1; searchDishes()">Search</button>
+        </div>
+
+        <div id="dish-results" class="row overflow-x-scroll flex-nowrap py-2">
+
+        </div>
+
+        <nav id="dish-pag-nav" class="my-2">
+            <ul class="pagination justify-content-center">
+                <li id="dish-pgPrev" class="page-item"><a class="page-link" onclick="goToPage(dishElements.currentPage - 1, 'dish')">Previous</a></li>
+                <li id="dish-pgFirst" class="page-item"><a class="page-link" onclick="goToPage(1, 'dish')">1</a></li>
+                <li id="dish-pgLeftDots" class="page-item disabled"><a class="page-link">...</a></li>
+                <li id="dish-pgCurrent" class="page-item"><a class="page-link active"></a></li>
+                <li id="dish-pgRightDots" class="page-item disabled"><a class="page-link">...</a></li>
+                <li id="dish-pgLast" class="page-item"><a class="page-link" onclick="goToPage(dishElements.maxPage, 'dish')"></a></li>
+                <li id="dish-pgNext" class="page-item"><a class="page-link" onclick="goToPage(dishElements.currentPage + 1, 'dish')">Next</a></li>
+            </ul>
+        </nav>
+
+        <h4>Restaurants</h4>
+        <div class="input-group">
+            <input id="restaurant-name" type="text" class="form-control rounded-end-0" placeholder="Restaurant name">
+            <input id="restaurant-street" type="text" class="form-control rounded-0" placeholder="Street Address">
+            <input id="restaurant-city" type="text" class="form-control rounded-0" placeholder="City">
+            <button type="button" class="btn btn-primary rounded-start-0" onclick="restaurantElements.currentPage = 1; searchRestaurants()">Search</button>
+        </div>
+
+        <div id="restaurant-results" class="row overflow-x-scroll flex-nowrap py-2">
+
+        </div>
+
+        <nav id="restaurant-pag-nav" class="my-2">
+            <ul class="pagination justify-content-center">
+                <li id="restaurant-pgPrev" class="page-item"><a class="page-link" onclick="goToPage(currentPage - 1)">Previous</a></li>
+                <li id="restaurant-pgFirst" class="page-item"><a class="page-link" onclick="goToPage(1)">1</a></li>
+                <li id="restaurant-pgLeftDots" class="page-item disabled"><a class="page-link">...</a></li>
+                <li id="restaurant-pgCurrent" class="page-item"><a class="page-link active"></a></li>
+                <li id="restaurant-pgRightDots" class="page-item disabled"><a class="page-link">...</a></li>
+                <li id="restaurant-pgLast" class="page-item"><a class="page-link" onclick="goToPage(maxPage)"></a></li>
+                <li id="restaurant-pgNext" class="page-item"><a class="page-link" onclick="goToPage(currentPage + 1)">Next</a></li>
+            </ul>
+        </nav>
+
+        <h2>Restaurants nearby</h2>
+        <div id="nearby" class="row overflow-x-scroll flex-nowrap py-2">
+
+        </div>
+    </div>
+</div>
+
+<div id="dish-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="dish-modal-title fs-5" id="dish-modal-title">Dish name</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div id="dish-modal-body" class="modal-body">
+                <img id="dish-modal-img" src="" class="img-fluid">
+                <h3 class="mb-0">Restaurant</h3>
+                <div class="mb-0" id="dish-modal-restaurant"></div>
+                <h3 class="mb-0">Category</h3>
+                <div class="mb-2" id="dish-modal-category"></div>
+                <h3 class="mb-0">Price</h3>
+                <div class="mb-2" id="dish-modal-price"></div>
+                <h3>Ingredients</h3>
+                <ul id="dish-modal-ingredients">
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="input-group">
+                    <div class="input-group-text">Amount</div>
+                    <input id="dish-modal-amount" class="form-control" type="number" required min="1" step="1" value="1" placeholder="Amount">
+                    <button type="button" class="btn btn-primary" onclick="dishToCart()">Add to cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/errorManager.js"></script>
+<script src="/js/homeCustomer.js"></script>
+</body>
+</html>

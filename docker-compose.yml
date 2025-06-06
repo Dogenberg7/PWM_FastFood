@@ -1,0 +1,14 @@
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Camilla
+      MONGO_INITDB_ROOT_PASSWORD: 20632A
+
+volumes:
+  mongodb_data:

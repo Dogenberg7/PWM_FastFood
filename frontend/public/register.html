@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWM FastFood</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body hidden="true" data-bs-theme="dark">
+    <div id="content">
+        <div class="col-12 d-flex flex-column justify-content-center align-items-center text-center">
+            <h2>Register to PWM FastFood</h2>
+            <div class="w-auto">
+                <input type="text" id="username" class="form-control rounded-bottom-0" placeholder="Username">
+                <div class="input-group w-auto">
+                    <input type="text" id="firstname" class="form-control rounded-0" placeholder="First name">
+                    <input type="text" id="lastname" class="form-control rounded-0" placeholder="Last name">
+                </div>
+                <input type="email" id="email" class="form-control rounded-0" placeholder="E-mail">
+                <select id="type" class="form-select rounded-0">
+                    <option value="" selected disabled>--Select account type--</option>
+                    <option value="customer">Customer</option>
+                    <option value="owner">Owner</option>
+                </select>
+                <input type="password" id="password" class="form-control rounded-0" placeholder="Password">
+                <input type="password" id="confirmpassword" class="form-control rounded-top-0" placeholder="Confirm password">
+            </div>
+            <button type="submit" class="btn btn-primary m-2" onclick="register()">Register</button>
+            <h6 class="mt-4">Already have an account?</h6>
+            <a href="login.html" class="btn btn-outline-primary">Login</a>
+        </div>
+
+    </div>
+
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/layout.js"></script>
+    <script src="/js/errorManager.js"></script>
+    <script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWM FastFood</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body data-bs-theme="dark">
+<div id="content">
+    <div class="col-12 w-auto">
+        <h1 class="my-2">Analytics</h1>
+        <h5>Period</h5>
+        <div class="input-group">
+            <div class="input-group-text rounded-end-0">Start</div>
+            <input id="start" type="date" class="form-control rounded-0">
+            <div class="input-group-text rounded-0">End</div>
+            <input id="end" type="date" class="form-control rounded-0">
+            <button type="button" class="btn btn-primary rounded-start-0" onclick="getAnalytics().then((data) => { analyticsData = data; showAnalytics(analyticsData)})">Submit</button>
+        </div>
+        <h4 class="mt-4">Data</h4>
+        <div id="total-orders"></div>
+        <div id="total-earned"></div>
+        <div id="avg-earned"></div>
+        <div id="best-selling-name"></div>
+        <div id="best-selling-amount"></div>
+        <div id="best-selling-earned"></div>
+    </div>
+</div>
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/errorManager.js"></script>
+<script src="/js/analytics.js"></script>
+</body>
+</html>

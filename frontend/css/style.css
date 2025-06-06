@@ -1,0 +1,36 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.my-navbar {
+    height: 50px;
+}
+
+.main-container {
+    height: calc(100vh - 50px);
+    overflow-y: scroll;
+}
+
+.text-border {
+    text-shadow: 2px 0 #101010, -2px 0 #101010, 0 2px #101010, 0 -2px #101010,
+    1px 1px #101010, -1px -1px #101010, 1px -1px #101010, -1px 1px #101010;
+}
+
+.custom-card {
+    height: 150px !important;
+}
+
+.image-clip {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover;
+}
+
+.order-list {
+    height: 70vh !important;
+}
+
+.menu-results {
+    max-height: 40vh !important;
+}

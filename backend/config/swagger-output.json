@@ -1,0 +1,2751 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PWM FastFood API",
+    "description": "Swagger delle API per il progetto PWM FastFood",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "description": "Registra un nuovo utente usando i dati nel body.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene username, nome, cognome, email, password, conferma della password e tipo di utente.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "mariorossi"
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "Mario"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Rossi"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "mario.rossi@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Secret_123"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "Secret_123"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "customer"
+                }
+              },
+              "required": [
+                "username",
+                "firstName",
+                "lastName",
+                "email",
+                "password",
+                "confirmPassword",
+                "type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Utente registrato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User successfully registered."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Errore di validazione.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Esegue il login utilizzando il nome utente e la password indicati nel body, genera un token che viene salvato nei cookies.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene username e password.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "mariorossi"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Secret_123"
+                }
+              },
+              "required": [
+                "username",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login effettuato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User logged in successfully."
+                },
+                "username": {
+                  "type": "string",
+                  "example": "mariorossi"
+                },
+                "extraData": {
+                  "type": "string",
+                  "example": "682f252b2bfb43023a58df13"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Password errata.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Wrong Password."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Utente non trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "User not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "description": "Esegue il logout dell\\'utente eliminando il token dai cookies.",
+        "responses": {
+          "200": {
+            "description": "Logout effettuato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User logged out successfully."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/check": {
+      "get": {
+        "description": "Controlla se l\\'utente è già loggato verificando la presenza di un token.",
+        "responses": {
+          "200": {
+            "description": "Utente verificato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ok": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "description": "Porta alla home, esistono due home, una per i clienti e una per i ristoratori, quella dei clienti permette di cercare piatti e ristoranti, quella dei ristoratori permette di avanzare la coda degli ordini.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "description": "Porta alla pagina del profilo utente, qui è possibile visualizzare i propri dati, lo storico degli ordini e gestire il profilo.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/finalize": {
+      "get": {
+        "description": "Porta alla pagina di finalizzazione del profilo di un cliente.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/restaurant/add": {
+      "get": {
+        "description": "Porta alla pagina di finalizzazione del profilo di un ristoratore.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/menu/manager": {
+      "get": {
+        "description": "Porta alla pagina di gestione del menu, qui un ristoratore può modificare i prezzi, i tempi di preparazione, creare, aggiungere e rimuovere piatti.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/restaurant/analytics": {
+      "get": {
+        "description": "Porta alla pagina delle statistiche, qui un ristoratore può vedere quanto ha guadagnato, quanti ordini ha avuto, quanti ha guadagnato in media per ordine e quale piatto ha venduto di più in un dato periodo.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/restaurant/{id}": {
+      "get": {
+        "description": "Porta alla pagina di un dato ristorante, qui un cliente può visualizzarne le informazioni e ordinare dal menu.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID del ristorante di cui si vuole visualizzare la pagina."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "description": "Porta alla pagina del carrello, qui un cliente può visualizzare gli ordini nel carrello e modificarne le quantità prima di confermarli.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/checkout": {
+      "get": {
+        "description": "Porta alla pagina del checkout, qui un cliente può vedere il costo totale del suo ordine e selezionare un metodo di pagamento prima di confermarlo (i pagamenti sono simulati).",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/profile/edit": {
+      "get": {
+        "description": "Porta alla pagina di modifica dell\\'account, qui è possibile, in base al tipo di utente, modificare dati base (username, nome, cognome, email, password), indirizzo, dati del ristorante e metodi di pagamento.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/profile": {
+      "get": {
+        "description": "Restituisce i dati dell\\'utente, comprendono i dati comuni a tutti i tipi di utente e in base alla tipologia dell\\'utente i dati del cliente (indirizzo e carte) o del ristorante.",
+        "responses": {
+          "200": {
+            "description": "Profilo ricevuto con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "profile": {
+                  "$ref": "#/definitions/User"
+                },
+                "cards": {
+                  "$ref": "#/definitions/cards"
+                },
+                "address": {
+                  "$ref": "#/definitions/address"
+                },
+                "restaurant": {
+                  "$ref": "#/definitions/Restaurant"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Utente non trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "User not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error, try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "description": "Restituisce il numero totale di ordini e una pagina di 20 ordini, dal più recente, appartenenti all\\'utente loggato se è un cliente o ricevuti dal ristorante dell\\'utente loggato se è un proprietario. Di default restituisce la prima pagina, è possibile richiedere le successive specificando il paramentro page.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Numero della pagina",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ordini ricevuti con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "orders": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "682f252b2bfba60237b8df61"
+                      },
+                      "customer": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "682f252bcbfba60201b8df61"
+                          },
+                          "username": {
+                            "type": "string",
+                            "example": "mariorossi"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Mario Rossi"
+                          }
+                        }
+                      },
+                      "restaurant": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "682f25cb2bfbaa8237b8df61"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Da Mario"
+                          },
+                          "address": {
+                            "$ref": "#/definitions/address"
+                          },
+                          "phone": {
+                            "type": "string",
+                            "example": "3492361283"
+                          }
+                        }
+                      },
+                      "dish": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "682f222b2b1ba6d237b8df61"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Pizza margherita"
+                          },
+                          "category": {
+                            "type": "string",
+                            "example": "Pizza"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "/images/1748440295971-pizza.png"
+                          }
+                        }
+                      },
+                      "amount": {
+                        "type": "number",
+                        "example": 3
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 24
+                      },
+                      "state": {
+                        "type": "string",
+                        "example": "received"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2025-06-01T12:00:00Z"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error, try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nearby": {
+      "get": {
+        "description": "Restituisce i ristoranti vicini al cliente loggato, per semplicità un ristorante è ritenuto vicino se ha lo stesso CAP dell\\'indirizzo del cliente.",
+        "responses": {
+          "200": {
+            "description": "Ristoranti vicini trovati.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nearbyRestaurants": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "682f252b2bfb43023a58df13"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Da Mario"
+                    },
+                    "address": {
+                      "$ref": "#/definitions/address"
+                    },
+                    "phoneNumber": {
+                      "type": "string",
+                      "example": "3458320198"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/menu/{id}": {
+      "get": {
+        "description": "Restituisce nome, menu, indirizzo, numero di telefono e stato del ristorante (aperto o chiuso permanentemente).",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID del ristorante."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Menu trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Da Mario"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "3458230985"
+                },
+                "address": {
+                  "$ref": "#/definitions/address"
+                },
+                "menu": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "dish": {
+                        "$ref": "#/definitions/Dish"
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 199
+                      },
+                      "preparationTime": {
+                        "type": "number",
+                        "example": 3
+                      }
+                    }
+                  }
+                },
+                "active": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dishes": {
+      "get": {
+        "description": "Restituisce una pagina di 20 piatti dall\\'elenco comune e da quelli creati dal ristorante.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Numero della pagina",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Termine di ricerca",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "restaurant",
+            "in": "query",
+            "description": "ID del ristorante",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Piatti ricevuti con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "dishes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Dish"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards": {
+      "get": {
+        "description": "Restituisce i metodi di pagamento del cliente loggato, il numero di carta viene censurato.",
+        "responses": {
+          "200": {
+            "description": "Carte ricevute con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "owner": {
+                        "type": "string",
+                        "example": "Mario Rossi"
+                      },
+                      "expiry": {
+                        "type": "string",
+                        "example": "01/30"
+                      },
+                      "number": {
+                        "type": "string",
+                        "example": "**** **** **** 1234"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/queue": {
+      "get": {
+        "description": "Restituisce la coda degli ordini del ristorante del proprietario loggato.",
+        "responses": {
+          "200": {
+            "description": "Coda degli ordini ricevuta con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "queue": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "682f252b2bfba60237b8df61"
+                      },
+                      "customer": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "682a552b2bfba10237b8df61"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Mario Rossi"
+                          },
+                          "username": {
+                            "type": "string",
+                            "example": "mariorossi"
+                          }
+                        }
+                      },
+                      "dish": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "682f252b2bfba60237b8df61"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Pizza margherita"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "/images/1748440295971-pizza.png"
+                          },
+                          "prepTime": {
+                            "type": "number",
+                            "example": 10
+                          }
+                        }
+                      },
+                      "amount": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 16
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2025-06-01T12:00:00Z"
+                      },
+                      "state": {
+                        "type": "string",
+                        "example": "preparing"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Ristorante non trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Restaurant not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/estimate/{id}": {
+      "get": {
+        "description": "Calcola un stima di attesa di un ordine, viene calcolata facendo la somma di tutti i tempi di attesa degli ordini in coda moltiplicati per la propria quantità fino all\\'ordine desiderato, all\\'ordine in preparazione viene sottratto il tempo dall\\'ultimo inizio di preparazione.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID dell'ordine di cui stimare il tempo di attesa."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stima dell'attesa effettuata con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "estimatedTime": {
+                  "type": "string",
+                  "example": "2025-06-01T12:00:00Z"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/analytics": {
+      "get": {
+        "description": "Restituisce le statistiche del ristorante del ristoratore loggato (guadagno totale, numero di ordine, guadagno medio per ordine, piatto più venduto, quanto ha venduto e quanto ha fatto guadagnare), filtrabili per periodo.",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Timestamp data di inizio.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Timestamp data di fine.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statistiche ricevute con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "totalOrders": {
+                  "type": "number",
+                  "example": 10
+                },
+                "totalEarned": {
+                  "type": "number",
+                  "example": 10000
+                },
+                "avgEarned": {
+                  "type": "number",
+                  "example": 1000
+                },
+                "mostOrdered": {
+                  "$ref": "#/definitions/Dish"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dishes/search": {
+      "get": {
+        "description": "Restituisce l\\'elenco dei piatti presenti nei menu dei ristoranti che soddisfano i termini di ricerca.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Nome del piatto.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Categoria del piatto.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "Prezzo massimo",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Numero della pagina",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Piatti trovati con successo."
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/search": {
+      "get": {
+        "description": "Restituisce l\\'elenco dei ristoranti che soddisfano i termini di ricerca.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Nome del ristorante.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "description": "Via e numero civico del ristorante.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "description": "Città del ristorante",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Numero della pagina",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ristoranti trovati con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "restaurants": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Restaurant"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/finalize": {
+      "post": {
+        "description": "Completa il profilo del cliente loggato aggiungendo un indirizzo e un metodo di pagamento.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene l'indirizzo e il primo metodo di pagamento.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "object",
+                  "properties": {
+                    "streetAddress": {
+                      "type": "string",
+                      "example": "Via Mario Rossi, 1"
+                    },
+                    "city": {
+                      "type": "string",
+                      "example": "Milano"
+                    },
+                    "province": {
+                      "type": "string",
+                      "example": "MI"
+                    },
+                    "zipCode": {
+                      "type": "string",
+                      "example": "20000"
+                    }
+                  },
+                  "required": [
+                    "streetAddress",
+                    "city",
+                    "province",
+                    "zipCode"
+                  ]
+                },
+                "card": {
+                  "type": "object",
+                  "properties": {
+                    "cardOwner": {
+                      "type": "string",
+                      "example": "Mario Rossi"
+                    },
+                    "cardNumber": {
+                      "type": "string",
+                      "example": "1234123412341234"
+                    },
+                    "expiryDate": {
+                      "type": "string",
+                      "example": "01/30"
+                    },
+                    "cvc": {
+                      "type": "string",
+                      "example": "123"
+                    }
+                  },
+                  "required": [
+                    "cardOwner",
+                    "cardNumber",
+                    "expiryDate",
+                    "cvc"
+                  ]
+                }
+              },
+              "required": [
+                "address",
+                "card"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Account completato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Profile successfully finalized."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Errore di nella richiesta.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Profile successfully finalized."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/card/add": {
+      "post": {
+        "description": "Aggiunge un nuovo metodo di pagamento al cliente loggato.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene i dati del metodo di pagamento da aggiungere.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "card": {
+                  "type": "object",
+                  "properties": {
+                    "cardOwner": {
+                      "type": "string",
+                      "example": "Mario Rossi"
+                    },
+                    "cardNumber": {
+                      "type": "string",
+                      "example": "1234123412341234"
+                    },
+                    "expiryDate": {
+                      "type": "string",
+                      "example": "01/30"
+                    },
+                    "cvc": {
+                      "type": "string",
+                      "example": "123"
+                    }
+                  },
+                  "required": [
+                    "cardOwner",
+                    "cardNumber",
+                    "expiryDate",
+                    "cvc"
+                  ]
+                }
+              },
+              "required": [
+                "card"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Carta aggiunta con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Card successfully added."
+                },
+                "cards": {
+                  "$ref": "#/definitions/cards"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Errori di validazione.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "array",
+                  "example": [
+                    "Error1.",
+                    "Error2."
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/add": {
+      "post": {
+        "description": "Completa il profilo di un proprietario creando il suo ristorante.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene il ristorante da creare.",
+            "require": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "restaurant": {
+                  "type": "object",
+                  "properties": {
+                    "owner": {
+                      "type": "string",
+                      "example": "682f252b2bfba60237b8df61"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Da Mario"
+                    },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "streetAddress": {
+                          "type": "string",
+                          "example": "Via Mario Rossi, 1"
+                        },
+                        "city": {
+                          "type": "string",
+                          "example": "Milano"
+                        },
+                        "province": {
+                          "type": "string",
+                          "example": "MI"
+                        },
+                        "zipCode": {
+                          "type": "string",
+                          "example": "20000"
+                        }
+                      },
+                      "required": [
+                        "streetAddress",
+                        "city",
+                        "province",
+                        "zipCode"
+                      ]
+                    },
+                    "vatNumber": {
+                      "type": "string",
+                      "example": "12345678901"
+                    },
+                    "phoneNumber": {
+                      "type": "string",
+                      "example": "3490320259"
+                    }
+                  },
+                  "required": [
+                    "owner",
+                    "name",
+                    "address",
+                    "vatNumber",
+                    "phoneNumber"
+                  ]
+                }
+              },
+              "required": [
+                "restaurant"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ristorante aggiunto con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "restaurant": {
+                  "type": "string",
+                  "example": "682f252b2bfb43023a58df13"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Errore di validazione.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dish/add": {
+      "post": {
+        "description": "Crea un nuovo piatto, solo il ristorante che lo ha creato può aggiungerlo al proprio menu.",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Nome del piatto.",
+            "example": "Pizza margherita"
+          },
+          {
+            "name": "category",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Categoria del piatto.",
+            "example": "Pizza"
+          },
+          {
+            "name": "ingredients",
+            "in": "formData",
+            "type": "array",
+            "required": true,
+            "description": "Ingredienti del piatto.",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Tomato",
+              "Mozzarella",
+              "Flour"
+            ]
+          },
+          {
+            "name": "restaurant",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Ristorante a cui appartiene il piatto.",
+            "example": "682f252b2bfba60237b8df61"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Immagine del piatto."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "in": {
+                  "example": "any"
+                },
+                "type": {
+                  "example": "any"
+                },
+                "required": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "collectionFormat": {
+                  "example": "any"
+                },
+                "items": {
+                  "example": "any"
+                },
+                "example": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Piatto creato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dish": {
+                  "$ref": "#/definitions/Dish"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order": {
+      "post": {
+        "description": "Crea un nuovo ordine per il cliente loggato.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene gli ordini da creare, ogni proprietà ha un nome nel formato <ID ristorante><ID piatto> e ognuna contiene i dati del rispettivo ordine (cliente, ristorante, piatto quantità, prezzo)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "682f252b2bfba60237b8df61682f552b2bfba03617b8df41": {
+                  "type": "object",
+                  "properties": {
+                    "restaurant": {
+                      "type": "string",
+                      "example": "682f252b2bfba60237b8df61"
+                    },
+                    "dish": {
+                      "type": "string",
+                      "example": "682f552b2bfba03617b8df41"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": 600
+                    }
+                  }
+                },
+                "682f220b2bfba60237b8df61682f510b2bfba03617b8df41": {
+                  "type": "object",
+                  "properties": {
+                    "restaurant": {
+                      "type": "string",
+                      "example": "682f220b2bfba60237b8df61"
+                    },
+                    "dish": {
+                      "type": "string",
+                      "example": "682f510b2bfba03617b8df41"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": 800
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ordine creato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Order received."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/confirmpickup/{id}": {
+      "put": {
+        "description": "Permette a un cliente di confermare il ritiro di un suo piatto in stato \"ready\".",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID dell'ordine di cui confermare il ritiro."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ordine completato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Order completed."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Ordine non trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Order not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/update": {
+      "put": {
+        "description": "Avanza lo stato del primo ordine della coda del ristorante del proprietario loggato da \"received\" a \"preparing\" e da \"preparing\" a \"ready\". Aggiorna anche il timestamp dell\\'ultimo ordine entrato in preaparazione.",
+        "responses": {
+          "200": {
+            "description": "Coda mandata avanti con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Queue advanced successfully"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/menu/update": {
+      "put": {
+        "description": "Modifica il menu di un ristorante.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene l'ID del ristorante e il suo nuovo menu.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "restaurant": {
+                  "type": "string",
+                  "example": "682f252b2bfba60237b8df61"
+                },
+                "newMenu": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "dish": {
+                        "type": "string",
+                        "example": "682f252b2bfba60237b8df61"
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 100
+                      },
+                      "preparationTime": {
+                        "type": "number",
+                        "example": 10
+                      }
+                    },
+                    "required": [
+                      "dish",
+                      "price",
+                      "preparationTime"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "restaurant",
+                "newMenu"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Menu modificato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Menu edited."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/update": {
+      "put": {
+        "description": "Modifica l\\'indirizzo del cliente loggato.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene il nuovo indirizzo del cliente, solo i campi non null vengono modificati.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "object",
+                  "properties": {
+                    "streetAddress": {
+                      "type": "string",
+                      "example": "Via Luigi Verdi, 1"
+                    },
+                    "city": {
+                      "type": "string",
+                      "example": "Sanremo"
+                    },
+                    "province": {
+                      "type": "string",
+                      "example": "IM"
+                    },
+                    "zipCode": {
+                      "type": "string",
+                      "example": "18038"
+                    }
+                  },
+                  "required": [
+                    "streetAddress",
+                    "city",
+                    "province",
+                    "zipCode"
+                  ]
+                }
+              },
+              "required": [
+                "address"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Indirizzo aggiornato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Profile updated."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Errore di validazione.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Message."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Utente non trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "User not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/update": {
+      "put": {
+        "description": "Modifica le informazioni base del profilo utente (username, nome, cognome, email e password).",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene i nuovi dati del profilo (username, nome, cognome, email, password attuale, nuova password e conferma della nuova password), solo campi non null vengono modificati.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "luigiverdi"
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "Luigi"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Verdi"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "luigi.verdi@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Secret_123"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "example": "SuperSecret_321"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "SuperSecret_321"
+                }
+              },
+              "required": [
+                "username",
+                "firstName",
+                "lastName",
+                "email",
+                "password",
+                "newPassword",
+                "confirmPassword"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profilo aggiornato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Profile updated!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Errore nella richiesta",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Message."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Utente non trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "User not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/update": {
+      "put": {
+        "description": "Modifica i dati del ristorante del ristoratore loggato.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene i nuovi dati del ristorante, solo i campi non null vengono modificati.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "restaurant": {
+                  "type": "object",
+                  "properties": {
+                    "owner": {
+                      "type": "string",
+                      "example": "682f252b2bfba05647b8df61"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Da Luigi"
+                    },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "streetAddress": {
+                          "type": "string",
+                          "example": "Via Luigi Verdi, 1"
+                        },
+                        "city": {
+                          "type": "string",
+                          "example": "Sanremo"
+                        },
+                        "province": {
+                          "type": "string",
+                          "example": "IM"
+                        },
+                        "zipCode": {
+                          "type": "string",
+                          "example": "18038"
+                        }
+                      },
+                      "required": [
+                        "streetAddress",
+                        "city",
+                        "province",
+                        "zipCode"
+                      ]
+                    },
+                    "vatNumber": {
+                      "type": "string",
+                      "example": "12345678100"
+                    },
+                    "phoneNumber": {
+                      "type": "string",
+                      "example": "3490420259"
+                    }
+                  },
+                  "required": [
+                    "owner",
+                    "name",
+                    "address",
+                    "vatNumber",
+                    "phoneNumber"
+                  ]
+                }
+              },
+              "required": [
+                "restaurant"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ristorante modificato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Restaurant updated!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Errore di validazione.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Message."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Ristorante non trovato.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Restaurant not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/deactivate": {
+      "delete": {
+        "description": "Disattiva un account, imposta active a false e username e indirizzo email a null, se è un cliente elimina i dati aggiuntivi (indirizzo e metodi di pagamento), se è un proprietario al ristorante setta active a false, IVA e numero di telefono a null. Facendo così l\\'account diventa inaccessibile, non è più possibile ordinare dall\\'eventuale ristorante, è possibile creare un nuovo account che usi quei dati unici e viene mantenuto lo storico degli ordini.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contiene la password per verificare l'utente prima della disattivazione.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "Secret_123"
+                }
+              },
+              "required": [
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account disattivato con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Account deactivated."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Password errata.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Wrong password."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/card/delete/{id}": {
+      "delete": {
+        "description": "Rimuove un metodo di pagamento dal cliente loggato.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID della carta da rimuovere."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carta rimossa con successo.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cards": {
+                  "$ref": "#/definitions/cards"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Cliente o carta non trovato/a.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Errore generico del server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Server error. Try again later."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "682f252b2bfba60237b8df61"
+        },
+        "username": {
+          "type": "string",
+          "example": "mariorossi"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "Mario"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Rossi"
+        },
+        "email": {
+          "type": "string",
+          "example": "mario.rossi@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "$2b$10$tDNuGxt6w3vT0VKqhb5.wuXWvR5gE2HFQQhkcRlMMJJdmGN2mwL1q"
+        },
+        "type": {
+          "type": "string",
+          "example": "customer"
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "Dish": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "682f252b2bfba60237b8df61"
+        },
+        "name": {
+          "type": "string",
+          "example": "Pizza margherita"
+        },
+        "category": {
+          "type": "string",
+          "example": "Pizza"
+        },
+        "ingredients": {
+          "type": "array",
+          "example": [
+            "Tomato",
+            "Mozzarella",
+            "Flour"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "image": {
+          "type": "string",
+          "example": "/images/1748440295971-pizza.png"
+        },
+        "restaurant": {
+          "type": "string",
+          "example": "682f252b2bfba64617baaf61"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "682f252b2bfba60237b8df61"
+        },
+        "customer": {
+          "type": "string",
+          "example": "682f252b2bfba6abcdb8df61"
+        },
+        "restaurant": {
+          "type": "string",
+          "example": "682fa4b22bfba60237b8dfc3"
+        },
+        "dish": {
+          "type": "string",
+          "example": "682f252b2bfb43023a58df13"
+        },
+        "price": {
+          "type": "number",
+          "example": 297
+        },
+        "amount": {
+          "type": "number",
+          "example": 3
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2025-06-01T12:00:00Z"
+        }
+      }
+    },
+    "Restaurant": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "682f252b2bfba60237b8df61"
+        },
+        "owner": {
+          "type": "string",
+          "example": "682f25215bf4a60537b8df61"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "example": "3450124321"
+        },
+        "vatNumber": {
+          "type": "string",
+          "example": "12345678901"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "streetAddress": {
+              "type": "string",
+              "example": "Via Mario Rossi, 1"
+            },
+            "city": {
+              "type": "string",
+              "example": "Milano"
+            },
+            "province": {
+              "type": "string",
+              "example": "MI"
+            },
+            "zipCode": {
+              "type": "string",
+              "example": "20075"
+            }
+          }
+        },
+        "menu": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dish": {
+                "type": "string",
+                "example": "682f256c2bfba64237b8df61"
+              },
+              "price": {
+                "type": "number",
+                "example": 1290
+              },
+              "preparationTime": {
+                "type": "number",
+                "example": 10
+              }
+            }
+          }
+        },
+        "lastPreparationStart": {
+          "type": "string",
+          "example": "2025-06-01T12:00:00Z"
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "CustomerData": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "682f252b2bfba60237b8df61"
+        },
+        "user": {
+          "type": "string",
+          "example": "682f25215bf4a60537b8df61"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "streetAddress": {
+              "type": "string",
+              "example": "Via Mario Rossi, 1"
+            },
+            "city": {
+              "type": "string",
+              "example": "Milano"
+            },
+            "province": {
+              "type": "string",
+              "example": "MI"
+            },
+            "zipCode": {
+              "type": "string",
+              "example": "20075"
+            }
+          }
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cardOwner": {
+                "type": "string",
+                "example": "Luigi Verdi"
+              },
+              "cardNumber": {
+                "type": "string",
+                "example": "4321432143214321"
+              },
+              "expiryDate": {
+                "type": "string",
+                "example": "12/29"
+              },
+              "cvc": {
+                "type": "string",
+                "example": "241"
+              }
+            }
+          }
+        }
+      }
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "streetAddress": {
+          "type": "string",
+          "example": "Via Mario Rossi, 1"
+        },
+        "city": {
+          "type": "string",
+          "example": "Milano"
+        },
+        "province": {
+          "type": "string",
+          "example": "MI"
+        },
+        "zipCode": {
+          "type": "string",
+          "example": "20075"
+        }
+      }
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "cardOwner": {
+            "type": "string",
+            "example": "Luigi Verdi"
+          },
+          "cardNumber": {
+            "type": "string",
+            "example": "4321432143214321"
+          },
+          "expiryDate": {
+            "type": "string",
+            "example": "12/29"
+          },
+          "cvc": {
+            "type": "string",
+            "example": "241"
+          }
+        }
+      }
+    },
+    "menu": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dish": {
+            "type": "string",
+            "example": "682f256c2bfba64237b8df61"
+          },
+          "price": {
+            "type": "number",
+            "example": 1290
+          },
+          "preparationTime": {
+            "type": "number",
+            "example": 10
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "token",
+        "description": "Token JWT salvato in cookie HttpOnly"
+      }
+    }
+  },
+  "security": [
+    {
+      "cookieAuth": []
+    }
+  ]
+}

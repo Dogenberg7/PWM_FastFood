@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWM FastFood</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body data-bs-theme="dark">
+<div id="content">
+    <div id="profile" class="col-6 d-flex flex-column">
+        <h2>Profile</h2>
+        <div class="border-start border-light ms-2 ps-2">
+            <h5 class="mb-0">Username</h5>
+            <div id="username"></div>
+            <h5 class="mb-0 mt-2">First name</h5>
+            <div id="firstname"></div>
+            <h5 class="mb-0 mt-2">Last name</h5>
+            <div id="lastname"></div>
+            <h5 class="mb-0 mt-2">E-mail address</h5>
+            <div id="email"></div>
+            <h5 class="mb-0 mt-2">Account type</h5>
+            <div id="type"></div>
+            <div id="usraddress" class="border-start border-light ms-2 ps-2" hidden>
+                <h4 class="mt-3">Address</h4>
+                <h5 class="mb-0 mt-2">Street address</h5>
+                <div id="usrstraddress"></div>
+                <h5 class="mb-0 mt-2">City</h5>
+                <div id="usrcity"></div>
+                <h5 class="mb-0 mt-2">Province</h5>
+                <div id="usrprov"></div>
+                <h5 class="mb-0 mt-2">ZIP code</h5>
+                <div id="usrzip"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 d-flex flex-column">
+        <h2>Order history</h2>
+        <div id="orders" class="overflow-y-scroll order-list">
+
+        </div>
+
+        <nav id="pag-nav" class="my-2">
+            <ul class="pagination justify-content-center">
+                <li id="pgPrev" class="page-item"><a class="page-link" onclick="goToPage(currentPage - 1)">Previous</a></li>
+                <li id="pgFirst" class="page-item"><a class="page-link" onclick="goToPage(1)">1</a></li>
+                <li id="pgLeftDots" class="page-item disabled"><a class="page-link">...</a></li>
+                <li id="pgCurrent" class="page-item"><a class="page-link active"></a></li>
+                <li id="pgRightDots" class="page-item disabled"><a class="page-link">...</a></li>
+                <li id="pgLast" class="page-item"><a class="page-link" onclick="goToPage(maxPage)"></a></li>
+                <li id="pgNext" class="page-item"><a class="page-link" onclick="goToPage(currentPage + 1)">Next</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+    <div id="restaurant" class="col-6 d-flex flex-column my-4">
+        <h2>Restaurant</h2>
+        <div class="border-start border-light ms-2 ps-2">
+            <h5 class="mb-0">Name</h5>
+            <div id="restname"></div>
+            <h5 class="mb-0 mt-2">Phone number</h5>
+            <div id="restphone"></div>
+            <div id="restaddress" class="border-start border-light ms-2 ps-2">
+                <h4 class="mt-3">Address</h4>
+                <h5 class="mb-0 mt-2">Street address</h5>
+                <div id="reststraddress"></div>
+                <h5 class="mb-0 mt-2">City</h5>
+                <div id="restcity"></div>
+                <h5 class="mb-0 mt-2">Province</h5>
+                <div id="restprov"></div>
+                <h5 class="mb-0 mt-2">ZIP code</h5>
+                <div id="restzip"></div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary my-2" onclick="analytics()">Analytics</button>
+    </div>
+
+    <div class="col-12 d-flex flex-column my-4">
+        <button type="button" class="btn btn-primary my-2" onclick="editProfile()">Edit profile</button>
+        <button type="button" class="btn btn-danger my-2" onclick="deactivateBtn()">Deactivate account</button>
+    </div>
+</div>
+
+<div id="deactivate-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Are you sure?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div id="dishModalBody" class="modal-body">
+                <h3>Your account will be deactivated!</h3>
+                <div>We will keep storing your name and order history, everything else will be deleted and your account will become inaccesible.</div>
+            </div>
+            <div class="modal-footer justify-content-start">
+                <div class="mb-1">Insert your password to confirm.</div>
+                <div class="input-group">
+                    <input type="password" id="deactivate-password" class="form-control rounded-end-0" placeholder="Password" required>
+                    <button type="button" class="btn btn-primary" onclick="deactivateAccount()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/errorManager.js"></script>
+<script src="/js/profile.js"></script>
+</body>
+</html>
