@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
@@ -20,6 +21,7 @@ const __dirname = path.resolve();
 
 // setup Express
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
